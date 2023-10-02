@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ordenação de Números</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Ordenação de Números</h2>
+        <div class="form-group">
+            <label for="numero">Digite um número:</label>
+            <input type="number" class="form-control" id="numero" placeholder="Digite aqui">
+        </div>
+        <button class="btn btn-primary" id="adicionar">Adicionar</button>
+        <button class="btn btn-success" id="ordenar">Ordenar</button>
+        <button class="btn btn-info" id="buscar">Buscar</button>
+        <button class="btn btn-danger" id="remover">Remover</button>
+        <button class="btn btn-warning" id="substituir">Substituir</button>
+        <ul class="list-group mt-3" id="lista-numeros"></ul>
+    </div>
+
+    <script>
+        const numeros = [];
+        function adicionarNumero() {
+            const inputNumero = document.getElementById("numero");
+            const numero = parseInt(inputNumero.value);
+
+            if (!isNaN(numero)) {
+                numeros.push(numero);
+                inputNumero.value = ""; 
+                atualizarLista();
+            }
+        }
+        function ordenarNumeros() {
+            numeros.sort((a, b) => a - b);
+            atualizarLista();
+        }
+        function buscarNumero() {
+            const inputNumero = document.getElementById("numero");
+            const numero = parseInt(inputNumero.value);
+
+            const posicao = numeros.indexOf(numero);
+            if (posicao !== -1) {
+                alert(`O número ${numero} está na posição ${posicao + 1} do array.`);
+            } else {
+                alert(`O número ${numero} não foi encontrado no array.`);
+            }
+        }
+        function removerNumero() {
+            const inputNumero = document.getElementById("numero");
+            const numero = parseInt(inputNumero.value);
+
+            const posicao = numeros.indexOf(numero);
+            if (posicao !== -1) {
+                numeros.splice(posicao, 1);
+                inputNumero.value = ""; 
+                atualizarLista();
+            } else {
+                alert(`O número ${numero} não foi encontrado no array.`);
+            }
+        }
+
+        function substituirNumero() {
+            const inputNumero = document.getElementById("numero");
+            const numero = parseInt(inputNumero.value);
+
+            const posicao = numeros.indexOf(numero);
+            if (posicao !== -1) {
+                const novoNumero = parseInt(prompt(`Digite o novo valor para substituir ${numero}:`));
+                if (!isNaN(novoNumero)) {
+                    numeros[posicao] = novoNumero;
+                    atualizarLista();
+                } else {
+                    alert("Digite um número válido para substituir.");
+                }
+            } else {
+                alert(`O número ${numero} não foi encontrado no array.`);
+            }
+        }
+        function atualizarLista() {
+            const listaNumeros = document.getElementById("lista-numeros");
+            listaNumeros.innerHTML = ""; // Limpa a lista
+
+            for (let i = 0; i < numeros.length; i++) {
+                const li = document.createElement("li");
+                li.textContent = numeros[i];
+                li.className = "list-group-item";
+                listaNumeros.appendChild(li);
+            }
+        }
+
+        document.getElementById("adicionar").addEventListener("click", adicionarNumero);
+        document.getElementById("ordenar").addEventListener("click", ordenarNumeros);
+        document.getElementById("buscar").addEventListener("click", buscarNumero);
+        document.getElementById("remover").addEventListener("click", removerNumero);
+        document.getElementById("substituir").addEventListener("click", substituirNumero);
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

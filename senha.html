@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login e Cadastro</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div id="loginForm">
+                    <h2>Login</h2>
+                    <form>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="loginEmail">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="loginPassword">
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="login()">Entrar</button>
+                        <p>Não possui login? <a href="#" onclick="toggleForm('registerForm')">Cadastre-se</a></p>
+                    </form>
+                </div>
+
+                <div id="registerForm" class="hidden">
+                    <h2>Cadastro</h2>
+                    <form>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="registerName">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="registerEmail">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="registerPassword">
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="register()">Cadastrar</button>
+                        <p>Já possui login? <a href="#" onclick="toggleForm('loginForm')">Entrar</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleForm(formId) {
+            document.getElementById('loginForm').classList.toggle('hidden');
+            document.getElementById('registerForm').classList.toggle('hidden');
+        }
+
+        function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+               
+                window.location.href = 'product.html';
+            } else {
+               
+                alert('Usuário não encontrado. Verifique suas credenciais.');
+            }
+        }
+
+        function register() {
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+
+            
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+
+            const existingUser = users.find(u => u.email === email);
+
+            if (existingUser) {
+                
+                alert('Este email já está cadastrado.');
+                return;
+            }
+
+            
+            const newUser = {
+                name,
+                email,
+                password
+            };
+
+            users.push(newUser);
+
+           
+            localStorage.setItem('users', JSON.stringify(users));
+
+            
+            window.location.href = 'senha.html';
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
